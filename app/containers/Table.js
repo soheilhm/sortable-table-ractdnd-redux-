@@ -7,26 +7,35 @@ import Column from '../components/Column'
 import Row from '../components/Row'
 import * as DragActions from '../actions/actions'
 
-const Table = ({ table, actions }) => (
-	<table>
-		<thead>
-			<tr>
-				{ table.headings.map((column) => <Column key={column.name} column={column} drag={actions.drag} />) }
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				{
-					table.rows.map((row) => <Row key={row.name} row={row} />)
-				}
-			</tr>
-		</tbody>
-	</table>
-)
+
+class Table extends React.Component {
+	render(){
+		const actions = this.props.actions;
+		const optionItems = this.props.data.optionItems;
+		const selectedItems = this.props.data.selectedItems;
+		return (
+			<table>
+				<thead>
+					<tr>
+						{ optionItems.map((column,idx) => <Column key={idx} column={column} drag={actions.drag} />) }
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						{ selectedItems.map((column,idx) => <Column key={idx} column={column} drag={actions.drag} />) }
+
+					</tr>
+				</tbody>
+			</table>
+		);
+	}
+}
+
+
 
 function mapStateToProps(state) {
   return {
-    table: state.table
+    data: state.data
   }
 }
 

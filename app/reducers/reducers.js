@@ -1,30 +1,37 @@
 import * as types from '../constants/constants'
 
 const initialState = {
-	table: {
-		headings: [
+	data: {
+		optionItems: [
 			{
-				name: 'Column 1'
+				name: 'Header'
 			},
 			{
-				name: 'Column 2'
+				name: 'Image'
 			},
 			{
-				name: 'Column 3'
+				name: 'Content'
+			},
+			{
+				name: 'Footer'
 			}
 		],
-		rows: [
+		selectedItems: [
 			{
-				name: '15',
+				name: '',
 				column: 'Column 1'
 			},
 			{
-				name: '25',
+				name: '',
 				column: 'Column 2'
 			},
 			{
-				name: '35',
+				name: '',
 				column: 'Column 3'
+			},
+			{
+				name: '',
+				column: 'Column 4'
 			}
 		]
 	}
@@ -40,19 +47,13 @@ export default function drag(state = initialState, action) {
 }
 
 const reOrderCols = (state, draggedCol, targetCol) => {
-	let colOrder = state.table.headings.map((heading) => heading.name)
-	let columns = state.table.headings.slice()
+	let colOrder = state.data.optionItems.map((heading) => heading.name)
+	let columns = state.data.optionItems.slice()
 	let draggedColIndex = colOrder.indexOf(draggedCol.name)
 	let targetColIndex = colOrder.indexOf(targetCol.name)
 
 	columns.splice(draggedColIndex, 1)
 	columns.splice(targetColIndex, 0, draggedCol)
 
-	let rowOrder = columns.map((col) => {
-		return state.table.rows.filter((row) => {
-			if (col.name === row.column) return row
-		})[0]
-	})
-
-	return { table: { headings: columns, rows: rowOrder } }
+	return { data: { optionItems: columns, selectedItems: state.table.selectedItems } }
 }
